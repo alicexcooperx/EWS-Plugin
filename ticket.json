@@ -27,7 +27,18 @@
 
    ],
    "attachments":[
-
+      {
+         "filename": "attachments\\htmltest.html"
+      },
+      {
+         "filename": "attachments\\sba_ipAddr_dg.pdf"
+      },
+      {
+         "filename": "attachments\\testtext2.txt"
+      },
+      {
+         "filename": "attachments\\testtext.txt"
+      }
    ],
    "comments":[
 
