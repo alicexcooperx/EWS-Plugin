@@ -3,7 +3,10 @@
 
 
 def main():
-    print("Test code, to see if this is working.")
+    ticket = open("ticket.json", "r")
+    ticket_contents = ticket.read()
+    ticket.close()
+    print(ticket_contents)
 
 
 if __name__ == '__main__':
