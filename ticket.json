@@ -106,8 +106,8 @@
       "created":"2019-12-10T15:50:21.743Z",
       "lastModified":"2019-12-18T11:41:40.642Z",
       "organizationId":"a90acda0-f888-4538-a715-41cca94dff7d",
-      "name":"ticket_template",
-      "description":"ticket_template",
+      "name":"Toms ticket for suspicious IP address",
+      "description":"Tom has found a suspicious IP address which he thinks could be linked to an attack which was made recently. The IP address is this... 127.168.1.1 it also contains an email of admin@test.org",
       "color":"AQUA",
       "isUsed":false,
       "assignedGroupIds":[
