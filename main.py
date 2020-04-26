@@ -9,7 +9,8 @@ def main():
     ticket.close()
     parsing = Parser.Parser()
     DTOObject = parsing.parse_ticket(ticket_contents)
-
+    # sanitise = sanitizationVT2.SanitizationAV()
+    # sanitise.sanitiseAV("C:\\Users\\angel\\PycharmProjects\\EWS-Plugin\\attachments\\")
     print(DTOObject.attachments)
 
 
