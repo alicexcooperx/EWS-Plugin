@@ -1,32 +1,41 @@
-import json
+import os
 import requests
+import json
 
 
-class VirusTotalSanitize:
+class SanitizationAV:
 
-    def sanitisevt(self):
+    def sanitiseAV(self, attachments):
+
         url = 'https://www.virustotal.com/vtapi/v2/file/scan'
         api_key = '050e4c7768f9d896b852a271ed0718b0a87a24a7907a121337112dfcb3134bcd'
-        files = {'file': ('C:\\Users\\angel\\OneDrive\\Documents\\Diss\\16-Apr-2020 13-17-51\\domain.txt',
-                          open('C:\\Users\\angel\\OneDrive\\Documents\\Diss\\16-Apr-2020 13-17-51\\domain.txt', 'rb'))}
-        # make it recurse through a directory of files instead of just one file.
-        response = requests.post(url, files=files, params={"apikey": api_key})
-        sha256_file = ""
-        print(response.json())
-        output = json.loads(response.text)
+        files = [{'file': ('C:\\Users\\angel\\PycharmProjects\\EWS-Plugin\\attachments\\htmltest.html',
+                           open('C:\\Users\\angel\\PycharmProjects\\EWS-Plugin\\attachments\\htmltest.html', 'rb'))},
+                 {'file': ('C:\\Users\\angel\\PycharmProjects\\EWS-Plugin\\attachments\\testtext2.txt',
+                           open('C:\\Users\\angel\\PycharmProjects\\EWS-Plugin\\attachments\\testtext2.txt', 'rb'))}]
 
-        for i in output.items():
-            if i[0] == 'sha256':
-                print("{0}: {1}".format(i[0], i[1]))
-                sha256_file = i[1]
+        for file in files:
+            response = requests.post(url, files=file, params={"apikey": api_key})
+            sha256_file = ""
+            print(response)
+            output = json.loads(response.text)
 
-        report_url = "https://www.virustotal.com/vtapi/v2/file/report"
-        report_resp = requests.get(report_url, params={"apikey": api_key, "resource": sha256_file}).json()
-        for index, value in report_resp.items():
-            if index == "positives" and value == 0:
-                # If no viruses are found then DTO is returned without any changes same as attachments.
-                print("No Viruses Detected")
-            elif index == "positives" and value > 0:
-                # have this so it returns the hash value in the report so that you can view the malicious code
-                # without potentially accessing it or running it.
-                print("{0} postive results found".format(index['positives']))
+            for item in output.items():
+                if item[0] == 'sha256':
+                    print("{0}: {1}".format(item[0], item[1]))
+                    sha256_file = item[1]
+
+            report_url = "https://www.virustotal.com/vtapi/v2/file/report"
+            report_resp = requests.get(report_url, params={"apikey": api_key, "resource": sha256_file}).json()
+
+            for index, value in report_resp.items():
+                if index == "positives" and value == 0:
+                    print("No Viruses Detected")
+                elif index == "positives" and value > 0:
+                    print("{0} positive results found".format(index['positives']))
+
+# For each file in the directory,
+# Upload it to virus total
+# Get the hashes of each file and the name
+# if a virus is found then returning the hash and it needs to be flagged
+# put this into the DTO
