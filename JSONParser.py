@@ -19,7 +19,11 @@ class JSONParser:
         references = payload["references"]
         title = payload["title"]
         cyber_ticket_info = payload["cyberticketEmails"]
-        attachments = payload["attachments"]
+
+        attachments = []
+
+        for test in payload["attachments"]:
+            attachments.append(test["filename"])
 
         ticket_heading = payload["title"]
         sub_directory = ticket_heading
@@ -39,8 +43,5 @@ class JSONParser:
         dtoObject = DTO.DTO(title, description, creator_id, organization_id, comments, references,
                             local_organization_ticket_info, cyber_ticket_info, attribute_values, attachments,
                             flagged_filename, flagged_hash, been_scanned)
-
-        sanitise = sanitizationVT.SanitizationAV()
-        sanitise.sanitiseAV(attachments_folder)
 
         return dtoObject
