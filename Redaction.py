@@ -26,6 +26,7 @@ class Redaction:
                 os.remove(filename)
 
     def redactionfind(self):
+"""
         piece_size = 4096
         out_file = open("C:\\Users\\angel\\OneDrive\\Documents\\DissRedactionBytes\\output.txt", "wb")
         in_file = open("C:\\Users\\angel\\OneDrive\\Documents\\DissRedactionBytes\\input.txt", "rb")
@@ -37,6 +38,31 @@ class Redaction:
             out_file.write(piece)
         out_file.close()
         in_file.close()
+"""
+
+with open('C:\\Users\\angel\\OneDrive\\Documents\\fuckit\\domain.txt', 'r') as f:
+    for line in f:
+        print(line)
+        try:
+            redact_file = os.path.normpath(line.split('\t')[0].split('ô€€œ-')[0])
+            redact_location = line.split('\t')[0].split('ô€€œ-')[1]
+            redact_string = line.split('\t')[1]
+
+            print(redact_file)
+            print(redact_location)
+            print(redact_string)
+
+            # redacting the flag string
+            f = open(redact_file, 'rt')
+            data = f.read()
+            data = data.replace(redact_string, '*' * redact_string.__len__())
+            f.close()
+            file = open(redact_file, 'wt')
+            file.write(data)
+            file.close()
+
+        except IndexError:
+            print("skipping line")
 
 
 
