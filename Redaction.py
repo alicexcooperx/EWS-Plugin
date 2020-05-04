@@ -25,8 +25,18 @@ class Redaction:
             if os.stat(filename).st_size == 0:
                 os.remove(filename)
 
-    def redactinfo(self):
-        print()
+    def redactionfind(self):
+        piece_size = 4096
+        out_file = open("C:\\Users\\angel\\OneDrive\\Documents\\DissRedactionBytes\\output.txt", "wb")
+        in_file = open("C:\\Users\\angel\\OneDrive\\Documents\\DissRedactionBytes\\input.txt", "rb")
+
+        while True:
+            piece = in_file.read(piece_size)
+            if piece == b"":
+                break
+            out_file.write(piece)
+        out_file.close()
+        in_file.close()
 
 
 

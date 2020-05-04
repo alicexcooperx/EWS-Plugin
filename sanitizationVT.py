@@ -16,13 +16,13 @@ class SanitizationAV:
         for file in files:
             response = requests.post(url, files=file, params={"apikey": api_key})
             sha256_file = ""
-            print(response)
+            # print(response)
             output = json.loads(response.text)
 
             for item in output.items():
                 if item[0] == 'sha256':
                     dto_object.attachments_hash.append(item[1])
-                    print("{0}: {1}".format(item[0], item[1]))
+                    # print("{0}: {1}".format(item[0], item[1]))
                     sha256_file = item[1]
 
             report_url = "https://www.virustotal.com/vtapi/v2/file/report"
@@ -31,10 +31,10 @@ class SanitizationAV:
             for index, value in report_resp.items():
                 if index == "positives" and value == 0:
                     dto_object.attachments_virus.append(0)
-                    print("No Viruses Detected")
+                    # print("No Viruses Detected")
                 elif index == "positives" and value > 0:
                     dto_object.attachments_virus.append(index['positives'])
-                    print("{0} positive results found".format(index['positives']))
+                    # print("{0} positive results found".format(index['positives']))
 
 # For each file in the directory,
 # Upload it to virus total

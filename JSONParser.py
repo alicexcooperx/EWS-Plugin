@@ -31,7 +31,7 @@ class JSONParser:
         directory = ticket_creator
 
         path = ("C:\\Users\\angel\\PycharmProjects\\EWS-Plugin\\" + directory + "\\" + sub_directory)
-        attachments_folder = "C:\\Users\\angel\\PycharmProjects\\EWS-Plugin\\attachments\\"
+        # attachments_folder = "C:\\Users\\angel\\PycharmProjects\\EWS-Plugin\\attachments\\"
 
         try:
             os.makedirs(path)

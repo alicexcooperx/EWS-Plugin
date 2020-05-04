@@ -12,8 +12,8 @@ def main():
     dto_object = parsing.parse_ticket(ticket_contents)
     sanitise = sanitizationVT.SanitizationAV()
     sanitise.sanitiseAV(dto_object)
-    print(dto_object.attachments_hash)
-    print(dto_object.attachments_virus)
+    # print(dto_object.attachments_hash)
+    # print(dto_object.attachments_virus)
 
 if __name__ == '__main__':
     main()
