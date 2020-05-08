@@ -25,44 +25,64 @@ class Redaction:
             if os.stat(filename).st_size == 0:
                 os.remove(filename)
 
-    def redactionfind(self):
-"""
-        piece_size = 4096
-        out_file = open("C:\\Users\\angel\\OneDrive\\Documents\\DissRedactionBytes\\output.txt", "wb")
-        in_file = open("C:\\Users\\angel\\OneDrive\\Documents\\DissRedactionBytes\\input.txt", "rb")
+    def valueContains(redactArray, startPos, increment):
+        test_result = startPos
+        for x in range(increment):
+            if test_result in redactArray:
+                return True
+            test_result += 1
+        return False
+    with open('attachmentsoutput\\domain.txt', 'r') as f:
 
-        while True:
-            piece = in_file.read(piece_size)
-            if piece == b"":
-                break
-            out_file.write(piece)
-        out_file.close()
-        in_file.close()
-"""
+        redaction = {}
 
-with open('C:\\Users\\angel\\OneDrive\\Documents\\fuckit\\domain.txt', 'r') as f:
-    for line in f:
-        print(line)
-        try:
-            redact_file = os.path.normpath(line.split('\t')[0].split('ô€€œ-')[0])
-            redact_location = line.split('\t')[0].split('ô€€œ-')[1]
-            redact_string = line.split('\t')[1]
+        for line in f:
+            try:
+                redact_file = os.path.normpath(line.split('\t')[0].split('ô€€œ-')[0])
+                redact_location = line.split('\t')[0].split('ô€€œ-')[1]
+                redact_string = line.split('\t')[1]
 
-            print(redact_file)
-            print(redact_location)
-            print(redact_string)
+                tempLocation = int(redact_location)
 
-            # redacting the flag string
-            f = open(redact_file, 'rt')
-            data = f.read()
-            data = data.replace(redact_string, '*' * redact_string.__len__())
-            f.close()
-            file = open(redact_file, 'wt')
-            file.write(data)
-            file.close()
+                for letter in redact_string:
+                    fileNameKey = redaction.get(redact_file)
+                    if not fileNameKey:
+                        temp = [tempLocation]
+                        redaction[redact_file] = temp
+                        tempLocation += 1
+                    else:
+                        fileNameKey.append(tempLocation)
+                        tempLocation += 1
 
-        except IndexError:
-            print("skipping line")
+            except IndexError:
+                continue
+
+        keys = redaction.keys()
+        for key in keys:
+            bytesToRedact = redaction.get(key)
+            byteCount = 1024
+            byte = 0
+            inFile = open(key, "rb")
+            outFile = open((key + ".redacted"), "wb")
+
+            while True:
+                buffer = inFile.read(byteCount)
+
+                if buffer == b"":
+                    break
+
+                if valueContains(bytesToRedact, byte, byteCount):
+                    for x in range(byteCount):
+                        currentByte = byte + x
+
+                        if currentByte in bytesToRedact:
+                            outFile.write(b'*')
+                        else:
+                            outFile.write(buffer[x:(x+1)])
+
+                else:
+                    outFile.write(buffer)
+                byte += byteCount
 
 
 
