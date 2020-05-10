@@ -6,32 +6,52 @@ import glob
 class Redaction:
 
     def redactionbulk(self):
+        """
+        Creates a directory of files which is based on the current date and time
+        Runs Bulk_Extractor on the attachments file which is related to the DTO
 
-        dateTimeObj = datetime.now()
-        timestampStr = dateTimeObj.strftime("%d-%b-%Y %H-%M-%S")
-        directory = timestampStr
+        | @param self: access the attributes of the class
+        """
+        date_time_obj = datetime.now()
+        time_string = date_time_obj.strftime("%d-%b-%Y %H-%M-%S")
+        directory = time_string
         parent_dir = r"C:\\Users\\angel\\OneDrive\\Documents\\Diss\\"
-        fullDirectoryPath = parent_dir + directory
-        command = 'bulk_extractor -o "' + fullDirectoryPath + '" -R "C:\\Users\\angel\\OneDrive\\Documents\\Diss' \
-                                                              '\\filesforBE" '
+        full_directory_path = parent_dir + directory
+        command = 'bulk_extractor -o "' + full_directory_path + '" -R "C:\\Users\\angel\\PycharmProjects\\EWS-Plugin' \
+                                                                '\\attachments" '
         os.system(command)
 
     def removefiles(self, fullDirectoryPath):
-        inDir = fullDirectoryPath
-        os.chdir(inDir)
-        fileList = glob.glob("*.txt")
+        """
+        Removes all of the files which have 0KB in them so that the program can ignore irrelevant files.
 
-        for filename in fileList:
+        | @param self: access the attributes of the class
+        | @param fullDirectoryPath: Passes the full directory path
+        """
+        in_dir = fullDirectoryPath
+        os.chdir(in_dir)
+        file_list = glob.glob("*.txt")
+
+        for filename in file_list:
             if os.stat(filename).st_size == 0:
                 os.remove(filename)
 
-    def valueContains(redactArray, startPos, increment):
+    def valueContains(self, redactArray, startPos, increment):
+        """
+        Removes all of the files which have 0KB in them so that the program can ignore irrelevant files.
+
+        | @param self: access the attributes of the class
+        | @param redactArray: The array of information that has been found that needs to be redacted
+        | @param startPos: The start position of the byte of sensitive information
+        | @param increment: The increment of the byte
+        """
         test_result = startPos
         for x in range(increment):
             if test_result in redactArray:
                 return True
             test_result += 1
         return False
+
     with open('attachmentsoutput\\domain.txt', 'r') as f:
 
         redaction = {}
@@ -83,15 +103,3 @@ class Redaction:
                 else:
                     outFile.write(buffer)
                 byte += byteCount
-
-
-
-
-
-
-
-
-
-
-
-
