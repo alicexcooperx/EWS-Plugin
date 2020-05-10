@@ -1,8 +1,22 @@
 class DTO:
-    def __init__(self, title, description, creator_id, organization_id, comments, references,
-                 local_organization_ticket_info, cyber_ticket_info, attribute_values, attachments,
-                 been_scanned, flagged_filename=None, flagged_hash=None):
 
+    def __init__(self, title, description, creator_id, organization_id, comments, references,
+                 local_organization_ticket_info, cyber_ticket_info, attribute_values, attachments):
+        """
+        This is the DTO object which stores relevant information about the incoming ticket.
+
+        | @param self: For the parser to run through this class
+        | @param title: Title of the ticket
+        | @param description: Description of the ticket
+        | @param creator_id: Creator of the ticket
+        | @param organization_id: Organisatio that created the ticket
+        | @param comments: Comments in the ticket
+        | @param references: References related to the ticket
+        | @param local_organization_ticket_info: Local information of the organisation
+        | @param cyber_ticket_info: Information about the ticket e.g. attributes
+        | @param attribute_values: Values within the attribute
+        | @param attachments: Attachments which are in the ticket
+        """
         self.attribute_values = attribute_values
         self.organization_id = organization_id
         self.creator_id = creator_id
@@ -15,6 +29,3 @@ class DTO:
         self.attachments = attachments
         self.attachments_hash = []
         self.attachments_virus = []
-        self.flagged_filename = flagged_filename
-        self.flagged_hash = flagged_hash
-        self.been_scanned = True if been_scanned else False
