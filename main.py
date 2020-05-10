@@ -1,10 +1,13 @@
 import Parser
-import sanitizationVT;
-# Wrapper Class - Just opens the JSON Ticket and hands it off to the parser.
-# Can be safely removed when integrating.
+import sanitizationVT
 
 
 def main():
+    """
+    This is the main method which is used as a wrapper class for the program.
+
+    | @param: None
+    """
     ticket = open("ticket.json", "r")
     ticket_contents = ticket.read()
     ticket.close()
@@ -12,8 +15,6 @@ def main():
     dto_object = parsing.parse_ticket(ticket_contents)
     sanitise = sanitizationVT.SanitizationAV()
     sanitise.sanitiseAV(dto_object)
-    # print(dto_object.attachments_hash)
-    # print(dto_object.attachments_virus)
 
 if __name__ == '__main__':
     main()
