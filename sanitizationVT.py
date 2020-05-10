@@ -10,9 +10,8 @@ class SanitizationAV:
         Uploads Files from a specific folder which is scanned via the VirusTotal API it is then returned and appended
         to the DTO with a value depending if a virus is found or not.
 
-        | @param self: For the parser to run through this class
+        | @param self: access the attributes of the class
         | @param dto_object: the values depending on the virus detection can be stored in the DTO
-
         """
         url = 'https://www.virustotal.com/vtapi/v2/file/scan'
         api_key = '050e4c7768f9d896b852a271ed0718b0a87a24a7907a121337112dfcb3134bcd'
