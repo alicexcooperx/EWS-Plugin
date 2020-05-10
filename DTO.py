@@ -5,11 +5,11 @@ class DTO:
         """
         This is the DTO object which stores relevant information about the incoming ticket.
 
-        | @param self: For the parser to run through this class
+        | @param self: access the attributes of the class
         | @param title: Title of the ticket
         | @param description: Description of the ticket
         | @param creator_id: Creator of the ticket
-        | @param organization_id: Organisatio that created the ticket
+        | @param organization_id: Organisation that created the ticket
         | @param comments: Comments in the ticket
         | @param references: References related to the ticket
         | @param local_organization_ticket_info: Local information of the organisation
