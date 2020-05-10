@@ -6,8 +6,14 @@ import sanitizationVT
 
 class JSONParser:
 
-    def parse_ticket(self, ticket, been_scanned=False, flagged_filename=None, flagged_hash=None):
+    def parse_ticket(self, ticket):
+        """
+        This is the JSONParser class which takes in the original ticket and passes certain values below into the Data
+        Transfer Object.
 
+        | @param self: access the attributes of the class
+        | @param ticket: The ticket which is submitted by the user in the EWS.
+        """
         payload = json.loads(ticket)
 
         attribute_values = payload["attributeValues"]
@@ -41,7 +47,6 @@ class JSONParser:
             print("Successfully created the directory %s" % path)
 
         dtoObject = DTO.DTO(title, description, creator_id, organization_id, comments, references,
-                            local_organization_ticket_info, cyber_ticket_info, attribute_values, attachments,
-                            flagged_filename, flagged_hash, been_scanned)
+                            local_organization_ticket_info, cyber_ticket_info, attribute_values, attachments)
 
         return dtoObject
