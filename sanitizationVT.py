@@ -1,4 +1,3 @@
-# This is the Sanitization class which uses the VirusTotal API to upload and scan attachments for viruses.
 import requests
 import json
 

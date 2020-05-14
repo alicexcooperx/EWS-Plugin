@@ -3,6 +3,7 @@ import sanitizationVT
 import Redaction
 import os
 
+
 def main():
     """
     This is the main method which is used as a wrapper class for the program.
@@ -16,10 +17,11 @@ def main():
     dto_object = parsing.parse_ticket(ticket_contents)
     sanitise = sanitizationVT.SanitizationAV()
     sanitise.sanitiseAV(dto_object)
-    rdc = Redaction.Redaction()
+    redaction_class = Redaction.Redaction()
     redaction = {}
 
-    for filen in os.listdir(rdc.full_directory_path):
+    for filen in os.listdir(redaction_class.full_directory_path):
+        # For each file in the directory of the output open the files
         if filen == "report.xml" or filen == "json.txt":
             continue
         with open(os.path.join(os.getcwd(), filen), 'r') as f:
@@ -30,18 +32,18 @@ def main():
                     redact_location = line.split('\t')[0].split('ô€€œ-')[1]
                     redact_string = line.split('\t')[1]
 
-                    tempLocation = int(redact_location)
+                    temp_location = int(redact_location)
 
                     # Gets the letter and make a temporary location if it doesnt exist.
                     for letter in redact_string:
                         if redact_file not in redaction:
-                            temp = [tempLocation]
+                            temp = [temp_location]
                             redaction[redact_file] = temp
-                            tempLocation += 1
+                            temp_location += 1
                         else:
-                            fileNameKey = redaction.get(redact_file)
-                            fileNameKey.append(tempLocation)
-                            tempLocation += 1
+                            file_name_key = redaction.get(redact_file)
+                            file_name_key.append(temp_location)
+                            temp_location += 1
 
                 except IndexError:
                     continue
@@ -49,32 +51,34 @@ def main():
     keys = redaction.keys()
     for key in keys:
         # Want to make sure that the system isn't over-using memory so it has been limited.
-        bytesToRedact = redaction.get(key)
-        bytesToRedact.sort()
-        byteCount = 1024
+        bytes_to_redact = redaction.get(key)
+        # Sort from the smallest byte to the largest
+        bytes_to_redact.sort()
+        byte_count = 1024
         byte = 0
-        inFile = open(key, "rb")
-        outFile = open((key + ".redacted"), "wb")
+        # Read the in file and write to the out file in binary mode
+        in_file = open(key, "rb")
+        out_file = open((key + ".redacted"), "wb")
 
         while True:
-            buffer = inFile.read(byteCount)
+            # while the condition is true read the byte count into the buffer
+            buffer = in_file.read(byte_count)
 
             if buffer == b"":
                 break
 
-            if rdc.valueContains(bytesToRedact, byte, byteCount):
-                for x in range(byteCount):
-                    currentByte = byte + x
+            if redaction_class.valueContains(bytes_to_redact, byte, byte_count):
+                for x in range(byte_count):
+                    current_byte = byte + x
 
-                    if currentByte in bytesToRedact:
-                        outFile.write(b'*')
+                    if current_byte in bytes_to_redact:
+                        out_file.write(b'*')
                     else:
-                        outFile.write(buffer[x:(x + 1)])
+                        out_file.write(buffer[x:(x + 1)])
 
             else:
-                outFile.write(buffer)
-            byte += byteCount
-
+                out_file.write(buffer)
+            byte += byte_count
 
 
 if __name__ == '__main__':

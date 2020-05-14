@@ -6,6 +6,13 @@ import glob
 class Redaction:
 
     def __init__(self):
+        """
+        Creates a directory of files which is based on the current date and time
+        Runs Bulk_Extractor on the attachments file which is related to the DTO
+
+        | @param self: access the attributes of the class
+        """
+        # Created a folder which is named the current date and time
         self.date_time_obj = datetime.now()
         self.time_string = self.date_time_obj.strftime("%d-%b-%Y %H-%M-%S")
         self.directory = self.time_string
@@ -14,15 +21,12 @@ class Redaction:
         self.redactionbulk()
         self.removefiles(self.full_directory_path)
 
-
     def redactionbulk(self):
         """
-        Creates a directory of files which is based on the current date and time
-        Runs Bulk_Extractor on the attachments file which is related to the DTO
+        Runs Bulk_Extractor and outputs to the directory which has been created in the above function
 
         | @param self: access the attributes of the class
         """
-
         command = 'bulk_extractor -o "' + self.full_directory_path + '" -R "C:\\Users\\angel\\PycharmProjects\\EWS-Plugin' \
                                                                 '\\attachments" '
         os.system(command)
@@ -30,7 +34,9 @@ class Redaction:
     def removefiles(self, full_directory_path):
         """
         Removes all of the files which have 0KB in them so that the program can ignore irrelevant files.
-        It also removes the
+        It also removes the histogram files which aren't relevant since they don't have the right output for redaction.
+        It removes the URL services which aren't relevant since they don't have the right output for redaction.
+        It removes the XML Report since all the information that needs to be redacted is in the other files.
 
         | @param self: access the attributes of the class
         | @param fullDirectoryPath: Passes the full directory path
@@ -83,7 +89,6 @@ class Redaction:
         | @param redactArray: The array of information that has been found that needs to be redacted
         | @param startPos: The start position of the byte of sensitive information
         | @param increment: The increment of the byte
-        | @param fullDirectoryPath: Passes the full directory path
         """
 
         test_result = startPos
