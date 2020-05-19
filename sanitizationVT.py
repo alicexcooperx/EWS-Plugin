@@ -22,6 +22,7 @@ class SanitizationAV:
 
         # For each file in attachments upload them to the API
         for file in files:
+            # For files in attachments upload to the API and keep the sha256 variable ready to be filled.
             response = requests.post(url, files=file, params={"apikey": api_key})
             sha256_file = ""
             # print(response)
