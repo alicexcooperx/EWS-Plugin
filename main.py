@@ -34,7 +34,7 @@ def main():
 
                     temp_location = int(redact_location)
 
-                    # Gets the letter and make a temporary location if it doesnt exist.
+                    # Gets the each letter and make a temporary location if it doesnt exist.
                     for letter in redact_string:
                         if redact_file not in redaction:
                             temp = [temp_location]
