@@ -27,8 +27,8 @@ class Redaction:
 
         | @param self: access the attributes of the class
         """
-        command = 'bulk_extractor -o "' + self.full_directory_path + '" -R "C:\\Users\\angel\\PycharmProjects\\EWS-Plugin' \
-                                                                '\\attachments" '
+        command = 'bulk_extractor -S ssn_mode=2 -o "' + self.full_directory_path + '" -R "C:\\Users\\angel\\PycharmProjects\\EWS-Plugin' \
+                                                                '\\attachments"'
         os.system(command)
 
     def removefiles(self, full_directory_path):
@@ -76,10 +76,11 @@ class Redaction:
             except IndexError:
                 continue
 
-        # if os.path.exists(full_directory_path + "report.xml"):
-            # os.remove("report.xml")
-        # else:
-            # print("The file does not exist")
+        if os.path.exists(full_directory_path):
+            # Remove the report XML from the directory
+            os.remove("report.xml")
+        else:
+            print("The file does not exist")
 
     def valueContains(self, redactArray, startPos, increment):
         """
