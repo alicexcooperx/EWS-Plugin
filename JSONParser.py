@@ -1,8 +1,7 @@
 import json
 import DTO
-import os
-import sanitizationVT
-
+# Imported JSON to make it so that the ticket could be loaded in JSON.
+# Imported DTO so the object could be instansiated
 
 class JSONParser:
 
@@ -31,22 +30,7 @@ class JSONParser:
         for test in payload["attachments"]:
             attachments.append(test["filename"])
 
-        ticket_heading = payload["title"]
-        sub_directory = ticket_heading
-        ticket_creator = payload["creatorId"]
-        directory = ticket_creator
-
-        path = ("C:\\Users\\angel\\PycharmProjects\\EWS-Plugin\\" + directory + "\\" + sub_directory)
-        # attachments_folder = "C:\\Users\\angel\\PycharmProjects\\EWS-Plugin\\attachments\\"
-
-        try:
-            os.makedirs(path)
-        except OSError:
-            print("Creation of directory %s failed" % path)
-        else:
-            print("Successfully created the directory %s" % path)
-
-        dtoObject = DTO.DTO(title, description, creator_id, organization_id, comments, references,
+        dto_object = DTO.DTO(title, description, creator_id, organization_id, comments, references,
                             local_organization_ticket_info, cyber_ticket_info, attribute_values, attachments)
 
-        return dtoObject
+        return dto_object
