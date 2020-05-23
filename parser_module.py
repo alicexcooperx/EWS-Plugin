@@ -1,7 +1,7 @@
-import JSONParser
+import json_parser_module
 
 
-class Parser:
+class parser_module:
     json_parser = ""
 
     def __init__(self):
@@ -10,7 +10,7 @@ class Parser:
 
         | @param self: access the attributes of the class
         """
-        self.json_parser = JSONParser.JSONParser()
+        self.json_parser = json_parser_module.json_parser_module()
 
     def parse_ticket(self, ticket):
         """
