@@ -1,6 +1,6 @@
-import Parser
+import parser_module
 import sanitizationVT
-import Redaction
+import redaction_module
 import os
 
 
@@ -8,16 +8,21 @@ def main():
     """
     This is the main method which is used as a wrapper class for the program.
 
+    It is also used to store main part of the redaction code.
+    The code, takes in the values of the BE output and splits the file by redact_file, redact_location and
+    redact_string. The redact file is the stored in a dictionary and counts up the bytes which belong to redact_string.
+    The bytes counted are then replaced by *, each file has a .redacted file outputted with the original file.
+
     | @param: None
     """
     ticket = open("ticket.json", "r")
     ticket_contents = ticket.read()
     ticket.close()
-    parsing = Parser.Parser()
+    parsing = parser_module.parser_module()
     dto_object = parsing.parse_ticket(ticket_contents)
-    sanitise = sanitizationVT.SanitizationAV()
-    sanitise.sanitiseAV(dto_object)
-    redaction_class = Redaction.Redaction()
+    sanitise = sanitizationVT.sanitize_module()
+    sanitise.sanitise_av(dto_object)
+    redaction_class = redaction_module.redaction_module()
     redaction = {}
 
     for filen in os.listdir(redaction_class.full_directory_path):
@@ -32,28 +37,35 @@ def main():
                     redact_location = line.split('\t')[0].split('ô€€œ-')[1]
                     redact_string = line.split('\t')[1]
 
-                    temp_location = int(redact_location)
+                    # Creating temp so that we can cast the location into an integer.
+                    temp_cast = int(redact_location)
 
-                    # Gets the each letter and make a temporary location if it doesnt exist.
                     for letter in redact_string:
+                        # If the redact file isn't in redaction, it creates a list with the first object being
+                        # temp_location and adds one byte for each letter.
                         if redact_file not in redaction:
-                            temp = [temp_location]
+                            temp = [temp_cast]
                             redaction[redact_file] = temp
-                            temp_location += 1
+                            temp_cast += 1
+                            print(redact_file)
                         else:
+                            # Else it appends it and adds one for each letter of the redact_file.
                             file_name_key = redaction.get(redact_file)
-                            file_name_key.append(temp_location)
-                            temp_location += 1
+                            file_name_key.append(temp_cast)
+                            temp_cast += 1
 
                 except IndexError:
                     continue
 
     keys = redaction.keys()
+    # Creates a dictionary called redaction
     for key in keys:
-        # Want to make sure that the system isn't over-using memory so it has been limited.
+        # Get the value associated to that key
         bytes_to_redact = redaction.get(key)
         # Sort from the smallest byte to the largest
         bytes_to_redact.sort()
+        print(bytes_to_redact)
+        # Want to make sure that the system isn't over-using memory so it has been limited.
         byte_count = 1024
         byte = 0
         # Read the in file and write to the out file in binary mode
@@ -65,9 +77,10 @@ def main():
             buffer = in_file.read(byte_count)
 
             if buffer == b"":
+                # It returns if it is empty
                 break
 
-            if redaction_class.valueContains(bytes_to_redact, byte, byte_count):
+            if redaction_class.value_contains(bytes_to_redact, byte, byte_count):
                 for x in range(byte_count):
                     current_byte = byte + x
 
