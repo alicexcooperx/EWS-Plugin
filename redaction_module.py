@@ -3,7 +3,7 @@ import os
 import glob
 
 
-class Redaction:
+class redaction_module:
 
     def __init__(self):
         """
@@ -18,20 +18,21 @@ class Redaction:
         self.directory = self.time_string
         self.parent_dir = r"C:\\Users\\angel\\OneDrive\\Documents\\Diss\\"
         self.full_directory_path = self.parent_dir + self.directory
-        self.redactionbulk()
-        self.removefiles(self.full_directory_path)
+        self.redaction_bulk()
+        self.remove_files(self.full_directory_path)
 
-    def redactionbulk(self):
+    def redaction_bulk(self):
         """
         Runs Bulk_Extractor and outputs to the directory which has been created in the above function
 
         | @param self: access the attributes of the class
         """
-        command = 'bulk_extractor -S ssn_mode=2 -o "' + self.full_directory_path + '" -R "C:\\Users\\angel\\PycharmProjects\\EWS-Plugin' \
-                                                                '\\attachments"'
+        command = 'bulk_extractor -S ssn_mode=2 -o "' + self.full_directory_path + '" -R "C:\\Users\\angel' \
+                                                                                   '\\PycharmProjects\\EWS-Plugin' \
+                                                                                   '\\attachments"'
         os.system(command)
 
-    def removefiles(self, full_directory_path):
+    def remove_files(self, full_directory_path):
         """
         Removes all of the files which have 0KB in them so that the program can ignore irrelevant files.
         It also removes the histogram files which aren't relevant since they don't have the right output for redaction.
@@ -82,20 +83,20 @@ class Redaction:
         else:
             print("The file does not exist")
 
-    def valueContains(self, redactArray, startPos, increment):
+    def value_contains(self, redactArray, startPos, increment):
         """
-        Removes all of the files which have 0KB in them so that the program can ignore irrelevant files.
+        This function is called when...
 
         | @param self: access the attributes of the class
         | @param redactArray: The array of information that has been found that needs to be redacted
-        | @param startPos: The start position of the byte of sensitive information
+        | @param startPos: The start position of the byte of information
         | @param increment: The increment of the byte
         """
 
         test_result = startPos
         for x in range(increment):
+            # If the start position in the array is true then increment by 1
             if test_result in redactArray:
                 return True
             test_result += 1
         return False
-
