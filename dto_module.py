@@ -1,4 +1,4 @@
-class DTO:
+class dto_module:
 
     def __init__(self, title, description, creator_id, organization_id, comments, references,
                  local_organization_ticket_info, cyber_ticket_info, attribute_values, attachments):
