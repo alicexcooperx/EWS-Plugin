@@ -1,5 +1,5 @@
 import parser_module
-import sanitizationVT
+import sanitize_module
 import redaction_module
 import os
 
@@ -20,16 +20,16 @@ def main():
     ticket.close()
     parsing = parser_module.parser_module()
     dto_object = parsing.parse_ticket(ticket_contents)
-    sanitise = sanitizationVT.sanitize_module()
+    sanitise = sanitize_module.hello()
     sanitise.sanitise_av(dto_object)
     redaction_class = redaction_module.redaction_module()
     redaction = {}
 
-    for filen in os.listdir(redaction_class.full_directory_path):
+    for file_n in os.listdir(redaction_class.full_directory_path):
         # For each file in the directory of the output open the files
-        if filen == "report.xml" or filen == "json.txt":
+        if file_n == "report.xml" or file_n == "json.txt":
             continue
-        with open(os.path.join(os.getcwd(), filen), 'r') as f:
+        with open(os.path.join(os.getcwd(), file_n), 'r') as f:
             for line in f:
                 # Gets values for file, location and the string to redact
                 try:
