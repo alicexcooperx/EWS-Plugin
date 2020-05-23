@@ -1,9 +1,7 @@
 import json
-import DTO
-# Imported JSON to make it so that the ticket could be loaded in JSON.
-# Imported DTO so the object could be instansiated
+import dto_module
 
-class JSONParser:
+class json_parser_module:
 
     def parse_ticket(self, ticket):
         """
@@ -27,10 +25,11 @@ class JSONParser:
 
         attachments = []
 
-        for test in payload["attachments"]:
-            attachments.append(test["filename"])
+        # for test in payload["attachments"]:
+            # attachments.append(test["filename"])
 
-        dto_object = DTO.DTO(title, description, creator_id, organization_id, comments, references,
-                            local_organization_ticket_info, cyber_ticket_info, attribute_values, attachments)
+        dto_object = dto_module.dto_module(title, description, creator_id, organization_id, comments, references,
+                                           local_organization_ticket_info, cyber_ticket_info, attribute_values,
+                                           attachments)
 
         return dto_object
