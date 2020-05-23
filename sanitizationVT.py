@@ -2,9 +2,9 @@ import requests
 import json
 
 
-class SanitizationAV:
+class sanitize_module:
 
-    def sanitiseAV(self, dto_object):
+    def sanitise_av(self, dto_object):
         """
         Uploads Files from a specific folder which is scanned via the VirusTotal API it is then returned and appended
         to the DTO with a value depending if a virus is found or not.
@@ -20,7 +20,6 @@ class SanitizationAV:
         for file in dto_object.attachments:
             files.append({'file': (file, open(file, 'rb'))})
 
-        # For each file in attachments upload them to the API
         for file in files:
             # For files in attachments upload to the API and keep the sha256 variable ready to be filled.
             response = requests.post(url, files=file, params={"apikey": api_key})
