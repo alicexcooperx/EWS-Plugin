@@ -18,9 +18,10 @@ def main():
     ticket = open("ticket.json", "r")
     ticket_contents = ticket.read()
     ticket.close()
+
     parsing = parser_module.parser_module()
     dto_object = parsing.parse_ticket(ticket_contents)
-    sanitise = sanitize_module.hello()
+    sanitise = sanitize_module.sanitize_module()
     sanitise.sanitise_av(dto_object)
     redaction_class = redaction_module.redaction_module()
     redaction = {}
@@ -60,15 +61,11 @@ def main():
     keys = redaction.keys()
     # Creates a dictionary called redaction
     for key in keys:
-        # Get the value associated to that key
+        # Get the value associated to that key, sort the bytes, cap the size so the memory isn't overwhelmed.
         bytes_to_redact = redaction.get(key)
-        # Sort from the smallest byte to the largest
         bytes_to_redact.sort()
-        print(bytes_to_redact)
-        # Want to make sure that the system isn't over-using memory so it has been limited.
         byte_count = 1024
         byte = 0
-        # Read the in file and write to the out file in binary mode
         in_file = open(key, "rb")
         out_file = open((key + ".redacted"), "wb")
 
