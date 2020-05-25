@@ -85,7 +85,7 @@ class redaction_module:
 
     def value_contains(self, redactArray, startPos, increment):
         """
-        This function is called when...
+        This function is called the bytes are being added to the array.
 
         | @param self: access the attributes of the class
         | @param redactArray: The array of information that has been found that needs to be redacted
