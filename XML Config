@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<RedactionConfig>
+  <User1>
+    <email>1</emai>
+    <SSN>0</SSN>
+    <PhoneNumber>1</PhoneNumber>
+    <CCN>0</CCN>
+  </User1>
+  
+  <User2>
+    <email>0</emai>
+    <SSN>0</SSN>
+    <PhoneNumber>1</PhoneNumber>
+    <CCN>1</CCN>
+  </User2>
+  
+  <User3>
+    <email>1</emai>
+    <SSN>1</SSN>
+    <PhoneNumber>1</PhoneNumber>
+    <CCN>1</CCN>
+  </User3>
+</RedactionConfig>
